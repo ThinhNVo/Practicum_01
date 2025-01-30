@@ -23,6 +23,7 @@ public class PersonGenerator {
     public static void main(String[] args) {
         ArrayList<String> people = new ArrayList();
         Scanner in = new Scanner(System.in);
+        SafeInputOBJ SafeInput = new SafeInputOBJ(in);
         String ID = "";
         String firstName = "";
         String lastName = "";
@@ -32,14 +33,14 @@ public class PersonGenerator {
         boolean doneInput = false;
 
         do {
-            ID = SafeInput.getNonZeroLenString(in, "Enter your ID [000001]");
-            firstName = SafeInput.getNonZeroLenString(in, "Enter your first name ");
-            lastName = SafeInput.getNonZeroLenString(in, "Enter your last name ");
-            title = SafeInput.getNonZeroLenString(in, "Enter your title ");
-            YearOfBirth = SafeInput.getRangedInt(in, "Enter your YOB ", 1000, 9999);
-            rec = ID + ", " + firstName + ", " + lastName + ", " + title + ", " + YearOfBirth;
-            people.add(rec);
-            doneInput = SafeInput.getYNConfirm(in, "Are you done? [Y/N]");
+            ID = SafeInput.getNonZeroLenString("Enter your ID [000001]");
+            firstName = SafeInput.getNonZeroLenString("Enter your first name ");
+            lastName = SafeInput.getNonZeroLenString("Enter your last name ");
+            title = SafeInput.getNonZeroLenString("Enter your title ");
+            YearOfBirth = SafeInput.getRangedInt("Enter your YOB ", 1942, 2010);
+            Person personAdded = new Person(ID, firstName,lastName,title,YearOfBirth);
+            people.add(personAdded.toCSV());
+            doneInput = SafeInput.getYNConfirm("Are you done? [Y/N]");
         } while(!doneInput);
 
         File workingDirectory = new File(System.getProperty("user.dir"));

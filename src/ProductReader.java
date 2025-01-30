@@ -25,6 +25,7 @@ public class ProductReader {
         JFileChooser chooser = new JFileChooser();
         String rec = "";
         ArrayList<String> lines = new ArrayList();
+        ArrayList<Product> products = new ArrayList<>();
         int FIELDS_LENGTH = 5;
 
         try {
@@ -54,7 +55,8 @@ public class ProductReader {
                         String Name = fields[1].trim();
                         String Description = fields[2].trim();
                         Double Cost = Double.parseDouble(fields[3].trim());
-                        System.out.printf("\n%-8s%-25s%-25s%6f", id, Name, Description, Cost);
+                        Product productRead = new Product(id, Name, Description, Cost);
+                        products.add(productRead);
                     } else {
                         System.out.println("Found a record that may be corrupt: ");
                         System.out.println(l);
@@ -71,6 +73,13 @@ public class ProductReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        // Print the data from Person objects in a formatted
+        for (Product product : products) {
+            System.out.printf("\n%-8s%-25s%-25s%6f",
+                    product.getID(),
+                    product.getName(),
+                    product.getDescription(),
+                    product.getCost());
+        }
     }
 }

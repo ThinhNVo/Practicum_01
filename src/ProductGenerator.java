@@ -21,8 +21,9 @@ public class ProductGenerator {
     }
 
     public static void main(String[] args) {
-        ArrayList<String> people = new ArrayList();
+        ArrayList<String> product = new ArrayList();
         Scanner in = new Scanner(System.in);
+        SafeInputOBJ SafeInput = new SafeInputOBJ(in);
         String ID = "";
         String Name = "";
         String Description = "";
@@ -31,13 +32,13 @@ public class ProductGenerator {
         boolean doneInput = false;
 
         do {
-            ID = SafeInput.getNonZeroLenString(in, "Enter product ID [000001]");
-            Name = SafeInput.getNonZeroLenString(in, "Enter product Name ");
-            Description = SafeInput.getNonZeroLenString(in, "Enter product Description ");
-            Cost = SafeInput.getRangedDouble(in, "Enter product Cost ", 0,9999);
-            rec = ID + ", " + Name + ", " + Description + ", " + Cost;
-            people.add(rec);
-            doneInput = SafeInput.getYNConfirm(in, "Are you done? [Y/N]");
+            ID = SafeInput.getNonZeroLenString("Enter product ID [000001]");
+            Name = SafeInput.getNonZeroLenString("Enter product Name ");
+            Description = SafeInput.getNonZeroLenString("Enter product Description ");
+            Cost = SafeInput.getRangedDouble("Enter product Cost ", 0,9999);
+            Product productAdded = new Product(ID, Name, Description, Cost);
+            product.add(productAdded.toCSV());
+            doneInput = SafeInput.getYNConfirm("Are you done? [Y/N]");
         } while(!doneInput);
 
         File workingDirectory = new File(System.getProperty("user.dir"));
@@ -47,7 +48,7 @@ public class ProductGenerator {
             OutputStream out = new BufferedOutputStream(Files.newOutputStream(file, StandardOpenOption.CREATE));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
 
-            for(String Product : people) {
+            for(String Product : product) {
                 writer.write(Product, 0, Product.length());
                 writer.newLine();
             }
